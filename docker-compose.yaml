@@ -1,0 +1,30 @@
+version: '3'
+services:
+  web:
+    container_name: back
+    build:
+      context: ./remind-map-backend
+      dockerfile: Dockerfile
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+
+  react:
+    container_name: front
+    build:
+      context: ./remind-map-frontend
+      dockerfile: Dockerfile
+    expose:
+      - 3000
+
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    restart: always
+    volumes:
+      - ./conf/:/etc/nginx/conf.d
+    ports:
+      - 80:80
+    depends_on:
+      - react
